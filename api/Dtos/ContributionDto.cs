@@ -1,14 +1,12 @@
 using System;
 
-namespace SaskPartyDonors
-{
-    public class Contributor
-    {
+namespace SaskPartyDonors.Dtos {
+  public class ContributionDto {
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string ContributorName { get; set; }
 
-        public string Type { get; set; }
+        public string ContributorType { get; set; }
 
         public int Year { get; set; }
 
