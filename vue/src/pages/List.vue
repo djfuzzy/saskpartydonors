@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import ContributionsTable from '../components/ContributionsTable.vue';
 import VLink from '../components/VLink';
 import MainLayout from '../layouts/Main.vue';
+import ContributionsService from '../services/contributionsService';
 
 export default {
   name: 'List',
@@ -22,28 +22,13 @@ export default {
     ContributionsTable,
     VLink,
   },
-  setup() {
-    const contributions = ref([
-      {
-        contributorName: 'John Smith',
-        date: 'June 1, 2019',
-        contributorType: 'Individual',
-        amount: 275.0,
-      },
-      {
-        contributorName: 'Appleseed Industries',
-        date: 'May 31, 2019',
-        contributorType: 'Corporation',
-        amount: 1000.0,
-      },
-      {
-        contributorName: 'United Software Workers',
-        date: 'August 15, 2019',
-        contributorType: 'Trade Unions',
-        amount: 500.0,
-      },
-    ]);
-    return { contributions };
+  data() {
+    return {
+      contributions: [],
+    };
+  },
+  async created() {
+    this.contributions = await ContributionsService.getContributions();
   },
 };
 </script>
