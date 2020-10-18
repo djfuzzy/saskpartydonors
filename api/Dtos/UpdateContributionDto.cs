@@ -1,9 +1,11 @@
+using SaskPartyDonors.Entities;
+
 namespace SaskPartyDonors.Dtos {
   public class UpdateContributionDto {
 
         public string ContributorName { get; set; }
 
-        public string ContributorType { get; set; }
+        public ContributorType ContributorType { get; set; }
 
         public int Year { get; set; }
 
