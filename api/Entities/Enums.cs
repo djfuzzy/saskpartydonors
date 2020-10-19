@@ -7,4 +7,13 @@ namespace SaskPartyDonors.Entities
     TradeUnions,
     Unincorporated
   }
+
+  public enum RecipientType
+  {
+    FederalCandidate,
+    FederalParty,
+    ProvincialCandidate,
+    ProvincialParty,
+    MunicipalCandidate
+  }
 }

@@ -3,7 +3,7 @@ using SaskPartyDonors.Entities;
 
 namespace SaskPartyDonors.Data
 {
-    public class SaskPartyDonorsContext : DbContext
+    public class SaskPartyDonorsContext : DbContext, ISaskPartyDonorsContext
     {
         public SaskPartyDonorsContext(DbContextOptions<SaskPartyDonorsContext> options)
             : base(options)
@@ -11,5 +11,7 @@ namespace SaskPartyDonors.Data
         }
 
         public DbSet<Contribution> Contributions { get; set; }
+
+        public DbSet<Recipient> Recipients { get; set; }
     }
 }

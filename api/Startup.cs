@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.Json.Serialization;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SaskPartyDonors.Data;
 using SaskPartyDonors.Extensions;
+using SaskPartyDonors.Services.Contributions;
 using SaskPartyDonors.Services.Importers;
+using SaskPartyDonors.Services.Recipients;
 
 namespace SaskPartyDonors
 {
@@ -26,7 +29,6 @@ namespace SaskPartyDonors
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Configure CORS
             services.AddCors(
                 options => options.AddPolicy(
                     _defaultCorsPolicyName,
@@ -43,11 +45,22 @@ namespace SaskPartyDonors
                 )
             );
 
-            services.AddDbContext<SaskPartyDonorsContext>(opt =>
-               opt.UseInMemoryDatabase("SaskPartyDonors"));
+            services.AddDbContext<SaskPartyDonorsContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection"),
+                    providerOptions => providerOptions.EnableRetryOnFailure()));
 
             services.AddTransient<AirtableCsvImporter>();
             services.AddTransient<SaskCsvImporter>();
+            services.AddTransient<IContributionService, ContributionService>();
+            services.AddTransient<IRecipientService, RecipientService>();
+
+            services.AddSwaggerDocument(settings =>
+            {
+                settings.FlattenInheritanceHierarchy = true;
+                settings.Title = "SaskPartyDonors API";
+            });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers()
                 .AddJsonOptions(opts =>
@@ -70,6 +83,8 @@ namespace SaskPartyDonors
             app.UseCors(_defaultCorsPolicyName);
 
             app.UseAuthorization();
+
+            app.UseOpenApi();
 
             app.UseEndpoints(endpoints =>
             {

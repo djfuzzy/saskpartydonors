@@ -1,75 +1,77 @@
 using System;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using FileHelpers;
-using SaskPartyDonors.Data;
 using SaskPartyDonors.Entities;
+using SaskPartyDonors.Services.Contributions;
+using SaskPartyDonors.Services.Contributions.Dtos;
+using SaskPartyDonors.Services.Recipients;
 
 namespace SaskPartyDonors.Services.Importers
 {
   public class AirtableCsvImporter
   {
-    private readonly SaskPartyDonorsContext _context;
+    private IContributionService _contributionService;
 
-    private static ContributorType _contributorType = ContributorType.Corporation;
+    private IRecipientService _recipientService;
 
-    public AirtableCsvImporter(SaskPartyDonorsContext context)
+    private const ContributorType DefaultContributorType = ContributorType.Corporation;
+
+    private const RecipientType DefaultRecipientType = RecipientType.ProvincialParty;
+
+    private const string DefaultRegion = "SK";
+
+    private const string DefaultRecipientName = "Saskatchewan Party";
+
+    public AirtableCsvImporter(IContributionService contributionService, IRecipientService recipientService)
     {
-      _context = context;
+      _contributionService = contributionService;
+      _recipientService = recipientService;
     }
 
-    public async void ImportFromStream(Stream stream, string recipient)
+    public async void ImportFromStream(Stream stream)
     {
       var engine = new FileHelperEngine<AirtableCsvImportedContribution>();
       var importedContributions = engine.ReadStream(new StreamReader(stream));
+      var recipient = await _recipientService.FindOrCreate(DefaultRecipientName, DefaultRecipientType,
+        DefaultRegion);
 
       foreach (var importedContribution in importedContributions)
       {
-        ImportContribution(importedContribution, recipient);
+        await ImportContribution(importedContribution, recipient.Id);
       }
-
-      await _context.SaveChangesAsync();
     }
 
-    private void ImportContribution(AirtableCsvImportedContribution importedContribution,
-      string recipientName)
+    private async Task ImportContribution(AirtableCsvImportedContribution importedContribution,
+      Guid recipientId)
     {
       try
       {
         var formattedName = importedContribution.ContributorName.Replace(",", ", ");
 
-        if (IsContributionAlreadyImported(formattedName, importedContribution.ContributorName,
-          importedContribution.Year))
+        if (await _contributionService.ExistsAsync(formattedName, recipientId, importedContribution.Year))
         {
           Console.WriteLine($"Already imported contribution from {importedContribution.ContributorName} to " +
             $"{importedContribution.ContributorName} in {importedContribution.Year}.");
           return;
         }
 
-        _context.Contributions.Add(new Contribution
+
+        await _contributionService.Create(new CreateContributionDto
         {
-          Id = Guid.NewGuid(),
           ContributorName = formattedName,
-          ContributorType = _contributorType,
+          ContributorType = DefaultContributorType,
           Year = importedContribution.Year,
-          Recipient = recipientName,
+          RecipientId = recipientId,
           Amount = importedContribution.Amount
         });
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Unable to import contribution from {importedContribution.ContributorName} to " +
-          $"{recipientName} in {importedContribution.Year}:");
+          $"{DefaultRecipientName} in {importedContribution.Year}:");
         Console.WriteLine(ex.Message);
       }
-    }
-
-    private bool IsContributionAlreadyImported(string contributorName, string recipient, int year)
-    {
-      return _context.Contributions.Any(c =>
-        c.ContributorName == contributorName
-        && c.Recipient == recipient
-        && c.Year == year);
     }
   }
 }

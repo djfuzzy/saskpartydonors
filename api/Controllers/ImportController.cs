@@ -8,7 +8,7 @@ using SaskPartyDonors.Services.Importers;
 
 namespace SaskPartyDonors.Controllers
 {
-  [Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ImportController : ControllerBase
     {
@@ -26,8 +26,8 @@ namespace SaskPartyDonors.Controllers
         [HttpPost]
         [RequestSizeLimit(52428800)]
         [DisableFormModelBinding]
-        [Route("year/{year:int}", Name = nameof(ImportWithYear))]
-        public async Task<ActionResult> ImportWithYear(int year)
+        [Route("saskCsv/recipient/{recipientName}/year/{year:int}", Name = nameof(ImportSaskCsv))]
+        public async Task<ActionResult> ImportSaskCsv(string recipientName, int year)
         {
             EnableSynchronousIO();
 
@@ -49,7 +49,7 @@ namespace SaskPartyDonors.Controllers
                     return BadRequest();
                 }
 
-                _saskCsvImporter.ImportFromStream(section.Body, year);
+                await _saskCsvImporter.ImportFromStream(section.Body, recipientName, year);
 
                 return Ok();
             }
@@ -63,8 +63,8 @@ namespace SaskPartyDonors.Controllers
         [HttpPost]
         [RequestSizeLimit(52428800)]
         [DisableFormModelBinding]
-        [Route("recipient/{recipient}", Name = nameof(ImportWithRecipient))]
-        public async Task<ActionResult> ImportWithRecipient(string recipient)
+        [Route("airtable", Name = nameof(ImportAirtable))]
+        public async Task<ActionResult> ImportAirtable()
         {
 
             EnableSynchronousIO();
@@ -86,7 +86,7 @@ namespace SaskPartyDonors.Controllers
                     return BadRequest();
                 }
 
-                _airtableCsvImporter.ImportFromStream(section.Body, recipient);
+                _airtableCsvImporter.ImportFromStream(section.Body);
 
                 return Ok();
             }

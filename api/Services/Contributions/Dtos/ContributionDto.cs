@@ -1,8 +1,11 @@
 using System;
 using SaskPartyDonors.Entities;
+using SaskPartyDonors.Services.Recipients;
 
-namespace SaskPartyDonors.Dtos {
-  public class ContributionDto {
+namespace SaskPartyDonors.Services.Contributions.Dtos
+{
+  public class ContributionDto
+  {
         public Guid Id { get; set; }
 
         public string ContributorName { get; set; }
@@ -11,7 +14,7 @@ namespace SaskPartyDonors.Dtos {
 
         public int Year { get; set; }
 
-        public string Recipient { get; set; }
+        public RecipientDto Recipient { get; set; }
 
         public decimal Amount { get; set; }
   }

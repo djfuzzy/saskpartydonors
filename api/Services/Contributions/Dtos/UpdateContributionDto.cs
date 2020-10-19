@@ -1,7 +1,11 @@
+using System;
 using SaskPartyDonors.Entities;
 
-namespace SaskPartyDonors.Dtos {
-  public class UpdateContributionDto {
+namespace SaskPartyDonors.Services.Contributions.Dtos
+{
+  public class UpdateContributionDto
+  {
+        public Guid Id { get; set; }
 
         public string ContributorName { get; set; }
 
@@ -9,7 +13,7 @@ namespace SaskPartyDonors.Dtos {
 
         public int Year { get; set; }
 
-        public string Recipient { get; set; }
+        public Guid RecipientId { get; set; }
 
         public decimal Amount { get; set; }
   }

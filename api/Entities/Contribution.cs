@@ -1,19 +1,20 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SaskPartyDonors.Entities
 {
-    public class Contribution
+    public class Contribution : TableEntity
     {
-        public Guid Id { get; set; }
-
         public string ContributorName { get; set; }
 
         public ContributorType ContributorType { get; set; }
 
         public int Year { get; set; }
 
-        public string Recipient { get; set; }
+        public Guid RecipientId { get; set; }
+        public Recipient Recipient { get; set; }
 
+        [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
   }
 }

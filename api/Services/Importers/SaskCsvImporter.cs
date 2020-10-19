@@ -1,57 +1,65 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using FileHelpers;
-using SaskPartyDonors.Data;
+using SaskPartyDonors.Services.Contributions.Dtos;
 using SaskPartyDonors.Entities;
+using SaskPartyDonors.Services.Contributions;
+using SaskPartyDonors.Services.Recipients;
+using System.Threading.Tasks;
 
 namespace SaskPartyDonors.Services.Importers
 {
   public class SaskCsvImporter
   {
-    private readonly SaskPartyDonorsContext _context;
+    private IContributionService _contributionService;
 
-    public SaskCsvImporter(SaskPartyDonorsContext context)
+    private IRecipientService _recipientService;
+
+    private const RecipientType DefaultRecipientType = RecipientType.ProvincialParty;
+
+    private const string DefaultRegion = "SK";
+
+    public SaskCsvImporter(IContributionService contributionService, IRecipientService recipientService)
     {
-      _context = context;
+      _contributionService = contributionService;
+      _recipientService = recipientService;
     }
 
-    public async void ImportFromStream(Stream stream, int year)
+    public async Task ImportFromStream(Stream stream, string recipientName, int year)
     {
       var engine = new FileHelperEngine<SaskCsvImportedContribution>();
 
       var importedContributions = engine.ReadStream(new StreamReader(stream));
+      var recipient = await _recipientService.FindOrCreate(recipientName, DefaultRecipientType,
+        DefaultRegion);
 
       foreach (var importedContribution in importedContributions)
       {
-        ImportContribution(importedContribution, year);
+        await ImportContribution(importedContribution, recipient.Id, year);
       }
-
-      await _context.SaveChangesAsync();
     }
 
-    private void ImportContribution(SaskCsvImportedContribution importedContribution, int year)
+    private async Task ImportContribution(SaskCsvImportedContribution importedContribution, Guid recipientId, int year)
     {
       try
       {
         var formattedName = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
           importedContribution.ContributorName.Replace(",", ", ").ToLower());
 
-        if (IsContributionAlreadyImported(formattedName, importedContribution.Recipient, year))
+        if (await _contributionService.ExistsAsync(formattedName, recipientId, year))
         {
           Console.WriteLine($"Already imported contribution from {importedContribution.ContributorName} to " +
             $"{importedContribution.Recipient} in {year}.");
           return;
         }
 
-        _context.Contributions.Add(new Contribution
+        await _contributionService.Create(new CreateContributionDto
         {
-          Id = Guid.NewGuid(),
           ContributorName = formattedName,
           ContributorType = importedContribution.ContributorType,
           Year = year,
-          Recipient = importedContribution.Recipient,
+          RecipientId = recipientId,
           Amount = importedContribution.Amount
         });
       }
@@ -61,14 +69,6 @@ namespace SaskPartyDonors.Services.Importers
           $"{importedContribution.Recipient} in {year}:");
         Console.WriteLine(ex.Message);
       }
-    }
-
-    private bool IsContributionAlreadyImported(string contributorName, string recipient, int year)
-    {
-      return _context.Contributions.Any(c =>
-        c.ContributorName == contributorName
-        && c.Recipient == recipient
-        && c.Year == year);
     }
   }
 }
