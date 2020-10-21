@@ -10,8 +10,8 @@ namespace SaskPartyDonors.Services.Importers.Dtos
 
         public long FailedCount { get; set; } = 0;
 
-        public List<object> SkippedLines { get; set; } = new List<object>();
+        public IList<string> SkippedRecords { get; set; } = new List<string>();
 
-        public List<object> FailedLines { get; set; } = new List<object>();
+        public IList<string> FailedRecords { get; set; } = new List<string>();
   }
 }

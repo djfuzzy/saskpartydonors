@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using FileHelpers;
-using SaskPartyDonors.Data;
 using SaskPartyDonors.Entities;
 using SaskPartyDonors.Services.Contributions;
 using SaskPartyDonors.Services.Contributions.Dtos;
@@ -14,8 +14,6 @@ namespace SaskPartyDonors.Services.Importers
 {
   public class AirtableCsvImporter
   {
-    private readonly SaskPartyDonorsContext _context;
-
     private IContributionService _contributionService;
 
     private IRecipientService _recipientService;
@@ -28,10 +26,8 @@ namespace SaskPartyDonors.Services.Importers
 
     private const string DefaultRecipientName = "Saskatchewan Party";
 
-    public AirtableCsvImporter(SaskPartyDonorsContext context, IContributionService contributionService,
-      IRecipientService recipientService)
+    public AirtableCsvImporter(IContributionService contributionService, IRecipientService recipientService)
     {
-      _context = context;
       _contributionService = contributionService;
       _recipientService = recipientService;
     }
@@ -57,7 +53,7 @@ namespace SaskPartyDonors.Services.Importers
         {
           Console.WriteLine($"Already imported contribution from {importedContribution.ContributorName} to " +
             $"{importedContribution.ContributorName} in {importedContribution.Year}.");
-          result.SkippedLines.Add(importedContribution);
+          result.SkippedRecords.Add(JsonSerializer.Serialize(importedContribution));
           continue;
         }
 
@@ -72,7 +68,7 @@ namespace SaskPartyDonors.Services.Importers
         else
         {
           result.FailedCount++;
-          result.FailedLines.Add(importedContribution);
+          result.FailedRecords.Add(JsonSerializer.Serialize(importedContribution));
         }
       }
 

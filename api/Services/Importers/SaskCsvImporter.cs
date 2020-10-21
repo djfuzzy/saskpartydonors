@@ -1,22 +1,20 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 using FileHelpers;
-using SaskPartyDonors.Services.Contributions.Dtos;
 using SaskPartyDonors.Entities;
 using SaskPartyDonors.Services.Contributions;
-using SaskPartyDonors.Services.Recipients;
-using System.Threading.Tasks;
-using SaskPartyDonors.Data;
-using System.Linq;
+using SaskPartyDonors.Services.Contributions.Dtos;
 using SaskPartyDonors.Services.Importers.Dtos;
+using SaskPartyDonors.Services.Recipients;
 
 namespace SaskPartyDonors.Services.Importers
 {
   public class SaskCsvImporter
   {
-    private readonly SaskPartyDonorsContext _context;
-
     private IContributionService _contributionService;
 
     private IRecipientService _recipientService;
@@ -25,10 +23,8 @@ namespace SaskPartyDonors.Services.Importers
 
     private const string DefaultRegion = "SK";
 
-    public SaskCsvImporter(SaskPartyDonorsContext context, IContributionService contributionService,
-      IRecipientService recipientService)
+    public SaskCsvImporter(IContributionService contributionService, IRecipientService recipientService)
     {
-      _context = context;
       _contributionService = contributionService;
       _recipientService = recipientService;
     }
@@ -56,7 +52,7 @@ namespace SaskPartyDonors.Services.Importers
         {
           Console.WriteLine($"Already imported contribution from {importedContribution.ContributorName} to " +
             $"{importedContribution.ContributorName} in {year}.");
-            result.SkippedLines.Add(new { importedContribution });
+            result.SkippedRecords.Add(JsonSerializer.Serialize(importedContribution));
           continue;
         }
 
@@ -71,7 +67,7 @@ namespace SaskPartyDonors.Services.Importers
         else
         {
           result.FailedCount++;
-          result.FailedLines.Add(importedContribution);
+          result.FailedRecords.Add(JsonSerializer.Serialize(importedContribution));
         }
       }
 
