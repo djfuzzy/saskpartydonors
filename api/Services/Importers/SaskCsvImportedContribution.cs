@@ -5,18 +5,18 @@ namespace SaskPartyDonors.Services.Importers
 {
     [IgnoreFirst]
     [DelimitedRecord(",")]
-    public class SaskCsvImportedContribution
+    public class SaskCsvImportedContribution : IImportedContribution
     {
-        public string Recipient;
+        public string Recipient { get; set; }
 
         [FieldConverter(typeof(ContributorTypeConverter))]
-        public ContributorType ContributorType;
+        public ContributorType ContributorType { get; set; }
 
         [FieldQuoted(QuoteMode.OptionalForRead)]
         [FieldConverter(typeof(AmountConverter))]
-        public decimal Amount;
+        public decimal Amount { get; set; }
 
         [FieldQuoted(QuoteMode.OptionalForRead)]
-        public string ContributorName;
+        public string ContributorName { get; set; }
     }
 }

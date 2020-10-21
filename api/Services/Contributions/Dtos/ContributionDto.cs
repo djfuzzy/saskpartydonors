@@ -1,20 +1,23 @@
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using SaskPartyDonors.Entities;
+using SaskPartyDonors.Services.Recipients;
 
-namespace SaskPartyDonors.Entities
+namespace SaskPartyDonors.Services.Contributions.Dtos
 {
-    public class Contribution : TableEntity
-    {
+  public class ContributionDto
+  {
+        public Guid Id { get; set; }
+
         public string ContributorName { get; set; }
 
         public ContributorType ContributorType { get; set; }
 
         public int Year { get; set; }
 
-        public Guid RecipientId { get; set; }
-        public Recipient Recipient { get; set; }
+        public RecipientDto Recipient { get; set; }
 
-        [Column(TypeName = "decimal(18,4)")]
+        public Guid RecipientId { get; set; }
+
         public decimal Amount { get; set; }
   }
 }
