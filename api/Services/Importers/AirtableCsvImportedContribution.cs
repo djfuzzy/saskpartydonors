@@ -4,7 +4,7 @@ namespace SaskPartyDonors.Services.Importers
 {
     [IgnoreFirst]
     [DelimitedRecord(",")]
-    public class AirtableCsvImportedContribution
+    public class AirtableCsvImportedContribution : IImportedContribution
     {
         [FieldQuoted(QuoteMode.OptionalForRead)]
         public string ContributorName;

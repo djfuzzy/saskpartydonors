@@ -20,21 +20,16 @@ namespace SaskPartyDonors.Services.Recipients
       _mapper = mapper;
     }
 
-    public async Task<RecipientDto> Create(CreateRecipientDto input)
+    public async Task<RecipientDto> Create(SaskPartyDonorsContext context, CreateRecipientDto input)
     {
       // TODO: Look for duplicates
       var recipient = _mapper.Map<Recipient>(input);
       recipient.Id = Guid.NewGuid();
-      _context.Add(recipient);
+      context.Add(recipient);
 
-      await _context.SaveChangesAsync();
+      await context.SaveChangesAsync();
 
       return _mapper.Map<RecipientDto>(recipient);
-    }
-
-    public Task Delete(Guid id)
-    {
-      throw new NotImplementedException();
     }
 
     public async Task<RecipientDto> GetById(Guid id)
@@ -42,24 +37,25 @@ namespace SaskPartyDonors.Services.Recipients
       return _mapper.Map<RecipientDto>(await _context.Recipients.Where(r => r.Id == id).SingleOrDefaultAsync());
     }
 
-    public async Task<RecipientDto> FindOrCreate(string name, RecipientType type, string region)
-    {
-      var recipient = await _context.Recipients.Where(
-        r => r.Name == name && r.Type == type && r.Region == region).SingleOrDefaultAsync();
+    // TODO: Find out why this fails
+    // public async Task<RecipientDto> FindOrCreate(SaskPartyDonorsContext context, string name, RecipientType type, string region)
+    // {
+    //   var recipient = await context.Recipients.Where(
+    //     r => r.Name == name && r.Type == type && r.Region == region).FirstOrDefaultAsync();
 
-      if (recipient != null)
-      {
-        return _mapper.Map<RecipientDto>(recipient);
-      }
+    //   if (recipient != null)
+    //   {
+    //     return _mapper.Map<RecipientDto>(recipient);
+    //   }
 
-      return await Create(new CreateRecipientDto
-        {
-          Name = name,
-          Type = type,
-          Region = region
-        }
-      );
-    }
+    //   return await Create(context, new CreateRecipientDto
+    //     {
+    //       Name = name,
+    //       Type = type,
+    //       Region = region
+    //     }
+    //   );
+    // }
 
     public async Task<IEnumerable<RecipientDto>> List()
     {

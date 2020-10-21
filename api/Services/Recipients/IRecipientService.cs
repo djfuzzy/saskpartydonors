@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using SaskPartyDonors.Data;
 using SaskPartyDonors.Entities;
 
 namespace SaskPartyDonors.Services.Recipients
@@ -11,12 +12,10 @@ namespace SaskPartyDonors.Services.Recipients
 
     Task<RecipientDto> GetById(Guid id);
 
-    Task<RecipientDto> FindOrCreate(string name, RecipientType type, string region);
+    // Task<RecipientDto> FindOrCreate(SaskPartyDonorsContext context, string name, RecipientType type, string region);
 
-    Task<RecipientDto> Create(CreateRecipientDto entity);
+    Task<RecipientDto> Create(SaskPartyDonorsContext context, CreateRecipientDto entity);
 
     Task<RecipientDto> Update(UpdateRecipientDto entity);
-
-    Task Delete(Guid id);
   }
 }

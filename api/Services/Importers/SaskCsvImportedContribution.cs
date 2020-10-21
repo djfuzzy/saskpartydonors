@@ -5,7 +5,7 @@ namespace SaskPartyDonors.Services.Importers
 {
     [IgnoreFirst]
     [DelimitedRecord(",")]
-    public class SaskCsvImportedContribution
+    public class SaskCsvImportedContribution : IImportedContribution
     {
         public string Recipient;
 
