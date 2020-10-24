@@ -3,7 +3,10 @@
     <section class="contributions-list mt-4">
       <div class="container">
         <v-link href="/">Go back to home</v-link>
-        <ContributionsTable :contributions="contributions" />
+        <ContributionsTable
+          :contributions="contributions"
+          :isLoading="isLoading"
+        />
       </div>
     </section>
   </main-layout>
@@ -25,10 +28,13 @@ export default {
   data() {
     return {
       contributions: [],
+      isLoading: false,
     };
   },
-  async created() {
+  async mounted() {
+    this.isLoading = true;
     this.contributions = await ContributionsService.getContributions();
+    this.isLoading = false;
   },
 };
 </script>

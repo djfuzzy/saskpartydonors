@@ -7,6 +7,7 @@
     :paginated="true"
     per-page="10"
     :debounce-search="500"
+    :loading="isLoading"
     class="contributions-table"
   >
     <b-table-column field="contributorName" label="Name" sortable searchable>
@@ -69,6 +70,6 @@
 <script>
 export default {
   name: 'ContributionsTable',
-  props: ['contributions'],
+  props: ['contributions', 'isLoading'],
 };
 </script>
