@@ -14,6 +14,8 @@ namespace SaskPartyDonors.Services.Contributions.Dtos
 
         public Guid RecipientId { get; set; }
 
-        public decimal Amount { get; set; }
+      public decimal Amount { get; set; }
+
+      public string Location { get; set; }
   }
 }

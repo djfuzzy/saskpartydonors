@@ -16,5 +16,7 @@ namespace SaskPartyDonors.Entities
 
         [Column(TypeName = "decimal(18,4)")]
         public decimal Amount { get; set; }
+
+        public string Location { get; set; }
   }
 }
