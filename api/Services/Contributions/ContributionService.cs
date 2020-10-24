@@ -60,7 +60,7 @@ namespace SaskPartyDonors.Services.Contributions
 
     public async Task<IEnumerable<ContributionDto>> List()
     {
-      return _mapper.Map<List<ContributionDto>>(await _context.Contributions.ToListAsync());
+      return _mapper.Map<List<ContributionDto>>(await _context.Contributions.Include(c => c.Recipient).ToListAsync());
     }
 
     public async Task<ContributionDto> Update(UpdateContributionDto input)

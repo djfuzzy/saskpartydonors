@@ -14,7 +14,7 @@ namespace SaskPartyDonors.Services.Contributions.Dtos
 
         public int Year { get; set; }
 
-        public RecipientDto Recipient { get; set; }
+        public string RecipientName { get; set; }
 
         public Guid RecipientId { get; set; }
 
