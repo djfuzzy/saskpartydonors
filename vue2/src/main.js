@@ -5,8 +5,13 @@ import {
   faAngleLeft,
   faAngleRight,
   faArrowUp,
+  faBuilding,
   faChevronUp,
+  faInfoCircle,
+  faLandmark,
   faSearch,
+  faToolbox,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
@@ -15,7 +20,18 @@ import routes from './routes';
 
 Vue.config.productionTip = false;
 
-library.add(faAngleLeft, faAngleRight, faArrowUp, faChevronUp, faSearch);
+library.add(
+  faAngleLeft,
+  faAngleRight,
+  faArrowUp,
+  faBuilding,
+  faChevronUp,
+  faInfoCircle,
+  faLandmark,
+  faSearch,
+  faToolbox,
+  faUser
+);
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 Vue.use(Buefy, {
   defaultIconComponent: 'vue-fontawesome',

@@ -7,6 +7,29 @@
           :contributions="contributions"
           :isLoading="isLoading"
         />
+        <h3>Sources</h3>
+        <div class="content is-small">
+          <ul>
+            <li>
+              <a
+                href="https://www.elections.sk.ca/reports-data/candidate-political-party-finances/fiscal-period-returns/"
+                target="_blank"
+                rel="noopener nofollow"
+              >
+                https://www.elections.sk.ca/reports-data/candidate-political-party-finances/fiscal-period-returns/
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://airtable.com/shrtS71S4Gw0V6QHy/tblm2NgY3pAW3896X/viwSk1LWyYK4kmX5U"
+                target="_blank"
+                rel="noopener nofollow"
+              >
+                https://airtable.com/shrtS71S4Gw0V6QHy/tblm2NgY3pAW3896X/viwSk1LWyYK4kmX5U
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </section>
   </main-layout>
@@ -39,8 +62,9 @@ export default {
 };
 </script>
 
-<style>
-table {
+<style scoped>
+.contributions-list {
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
