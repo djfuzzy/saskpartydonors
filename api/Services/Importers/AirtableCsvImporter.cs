@@ -86,7 +86,8 @@ namespace SaskPartyDonors.Services.Importers
           ContributorType = DefaultContributorType,
           Year = importedContribution.Year,
           RecipientId = recipientId,
-          Amount = importedContribution.Amount
+          Amount = importedContribution.Amount,
+          Location = importedContribution.Location
         });
       }
       catch (Exception ex)

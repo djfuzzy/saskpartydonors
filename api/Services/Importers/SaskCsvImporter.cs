@@ -47,6 +47,7 @@ namespace SaskPartyDonors.Services.Importers
 
         if (existingContriubitons.Any(c =>
           c.ContributorName == formattedName
+          && c.Location == DefaultRegion
           && c.RecipientId == recipientId
           && c.Year == year))
         {
@@ -85,7 +86,8 @@ namespace SaskPartyDonors.Services.Importers
           ContributorType = importedContribution.ContributorType,
           Year = year,
           RecipientId = recipientId,
-          Amount = importedContribution.Amount
+          Amount = importedContribution.Amount,
+          Location = DefaultRegion
         });
       }
       catch (Exception ex)
