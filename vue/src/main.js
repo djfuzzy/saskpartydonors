@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
 import routes from './routes';
+// import './assets/style.scss';
 
 Vue.config.productionTip = false;
 

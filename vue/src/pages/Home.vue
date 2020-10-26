@@ -49,6 +49,9 @@
                   Corporate donations on map
                 </li>
                 <li>
+                  Ability to export data
+                </li>
+                <li>
                   Contributions for other parties
                 </li>
                 <li>

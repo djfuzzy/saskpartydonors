@@ -16,7 +16,7 @@
                 target="_blank"
                 rel="noopener nofollow"
               >
-                https://www.elections.sk.ca/reports-data/candidate-political-party-finances/fiscal-period-returns/
+                Elections Saskatchewan (2016 to 2019)
               </a>
             </li>
             <li>
