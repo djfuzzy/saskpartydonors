@@ -24,7 +24,7 @@ namespace SaskPartyDonors.Controllers
             _airtableCsvImporter = airtableCsvImporter;
         }
 
-//#if debug
+#if DEBUG
         [HttpPost]
         [RequestSizeLimit(52428800)]
         [DisableFormModelBinding]
@@ -103,6 +103,6 @@ namespace SaskPartyDonors.Controllers
                 syncIOFeature.AllowSynchronousIO = true;
             }
         }
-//#endif
+#endif
     }
 }
