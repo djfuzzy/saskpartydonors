@@ -1,14 +1,19 @@
 <template>
-  <a :href="href" :class="linkClass" @click.prevent="go" :icon-right="icon">
+  <b-button
+    :click="url"
+    :class="linkClass"
+    @click.prevent="go"
+    :icon-left="icon"
+  >
     <slot></slot>
-  </a>
+  </b-button>
 </template>
 
 <script>
 import routes from '../routes';
 export default {
   props: {
-    href: {
+    url: {
       type: String,
       required: true,
     },
@@ -18,8 +23,8 @@ export default {
   methods: {
     go() {
       event.preventDefault();
-      this.$root.currentRoute = this.href;
-      window.history.pushState(null, routes[this.href], this.href);
+      this.$root.currentRoute = this.url;
+      window.history.pushState(null, routes[this.url], this.url);
     },
   },
 };

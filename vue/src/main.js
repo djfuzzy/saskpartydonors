@@ -10,6 +10,7 @@ import {
   faInfoCircle,
   faLandmark,
   faSearch,
+  faSearchDollar,
   faToolbox,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +31,7 @@ library.add(
   faInfoCircle,
   faLandmark,
   faSearch,
+  faSearchDollar,
   faToolbox,
   faUser
 );
