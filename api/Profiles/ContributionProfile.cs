@@ -9,6 +9,7 @@ namespace SaskPartyDonors.Profiles
     public ContributionProfile()
     {
       CreateMap<Contribution, ContributionDto>();
+      CreateMap<Contribution, ContributionByRecipientDto>();
       CreateMap<CreateContributionDto, Contribution>();
       CreateMap<UpdateContributionDto, Contribution>();
     }

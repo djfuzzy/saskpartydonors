@@ -13,6 +13,7 @@ using SaskPartyDonors.Extensions;
 using SaskPartyDonors.Services.Contributions;
 using SaskPartyDonors.Services.Importers;
 using SaskPartyDonors.Services.Recipients;
+using Serilog;
 
 namespace SaskPartyDonors
 {
@@ -75,8 +76,13 @@ namespace SaskPartyDonors
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+                app.UseHttpsRedirection();
+            }
 
-            app.UseHttpsRedirection();
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 

@@ -55,17 +55,35 @@ namespace SaskPartyDonors.Services.Contributions
 
     public async Task<ContributionDto> GetById(Guid id)
     {
-      return _mapper.Map<ContributionDto>(await _context.Contributions.Where(r => r.Id == id).SingleOrDefaultAsync());
+      return _mapper.Map<ContributionDto>(
+        await _context.Contributions
+          .Include(c => c.Recipient)
+          .Where(r => r.Id == id)
+          .SingleOrDefaultAsync());
     }
 
     public async Task<IEnumerable<ContributionDto>> List()
     {
-      return _mapper.Map<List<ContributionDto>>(await _context.Contributions.Include(c => c.Recipient).ToListAsync());
+      return _mapper.Map<List<ContributionDto>>(
+        await _context.Contributions
+          .Include(c => c.Recipient)
+          .ToListAsync());
+    }
+
+    public async Task<IEnumerable<ContributionByRecipientDto>> GetByRecipientId(Guid recipientId)
+    {
+      return _mapper.Map<List<ContributionByRecipientDto>>(
+        await _context.Contributions
+          .Include(c => c.Recipient)
+          .Where(c => c.RecipientId == recipientId)
+          .ToListAsync());
     }
 
     public async Task<ContributionDto> Update(UpdateContributionDto input)
     {
-      var contribution = await _context.Contributions.Where(r => r.Id == input.Id).SingleAsync();
+      var contribution = await _context.Contributions
+        .Where(r => r.Id == input.Id)
+        .SingleAsync();
 
       // TODO: Look for duplicates
       contribution.ContributorName = input.ContributorName;

@@ -11,8 +11,11 @@ namespace SaskPartyDonors.Services.Importers
       switch (from)
       {
         case "Individual":
+        case "Individuals":
           return (ContributorType)ContributorType.Individual;
+        case "Corporate":
         case "Corporation":
+        case "Corporations":
           return (ContributorType)ContributorType.Corporation;
         case "Trade Unions":
           return (ContributorType)ContributorType.TradeUnions;

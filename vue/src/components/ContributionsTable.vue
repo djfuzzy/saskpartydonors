@@ -11,7 +11,27 @@
     :loading="isLoading"
     :mobile-cards="false"
     class="contributions-table"
+    ref="contributionsTable"
+    filters-event="filter"
   >
+    <template slot="footer">
+      <div class="columns">
+        <div class="column">
+          Total of
+          {{
+            $refs.contributionsTable ? $refs.contributionsTable.newDataTotal : 0
+          }}
+          records:
+        </div>
+        <div class="column has-text-right">
+          {{
+            $refs.contributionsTable
+              ? $refs.contributionsTable.newData
+              : [] | sumAmounts | currency
+          }}
+        </div>
+      </div>
+    </template>
     <b-table-column
       field="contributorName"
       label="Contributor"
@@ -136,12 +156,17 @@
 export default {
   name: 'ContributionsTable',
   props: ['contributions', 'isLoading'],
-  data() {
+  data: function() {
     return {
       typeSearchTooltipActive: false,
     };
   },
   filters: {
+    sumAmounts: function(values) {
+      return values && Array.isArray(values) && values.length > 0
+        ? values.reduce((sum, contribution) => sum + contribution.amount, 0)
+        : 0;
+    },
     contributorTypeIconName: function(value) {
       switch (value) {
         case 'Corporation':

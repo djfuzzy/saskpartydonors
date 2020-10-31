@@ -24,12 +24,13 @@
             the publicly-available information to help us do just that.
           </p>
           <p class="has-text-centered">
-            <v-link
-              href="/list"
-              class="button is-sask-party has-text-centered list-button"
+            <v-link-button
+              url="/list"
+              class="is-sask-party"
+              icon="search-dollar"
             >
-              <span>Follow the money</span>
-            </v-link>
+              <span>Show me the money</span>
+            </v-link-button>
           </p>
           <h3 class="subtitle">
             Coming Soon
@@ -47,6 +48,9 @@
                 </li>
                 <li>
                   Corporate donations on map
+                </li>
+                <li>
+                  Ability to export data
                 </li>
                 <li>
                   Contributions for other parties
@@ -78,13 +82,13 @@
 
 <script>
 import MainLayout from '../layouts/Main.vue';
-import VLink from '../components/VLink.vue';
+import VLinkButton from '../components/VLinkButton.vue';
 
 export default {
   name: 'Home',
   components: {
     MainLayout,
-    VLink,
+    VLinkButton,
   },
 };
 </script>
@@ -106,7 +110,12 @@ export default {
   font-weight: bold;
 }
 
+.button.is-sask-party:focus,
 .button.is-sask-party:hover {
   color: #fcb827;
+}
+
+.button.is-sask-party:focus {
+  border-color: #fcb827;
 }
 </style>

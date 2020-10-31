@@ -7,7 +7,10 @@ const cacheConfig = {
 };
 
 const HttpClient = axios.create({
-  baseURL: 'https://localhost:5001',
+  baseURL:
+    process.env.NODE_ENV === 'production'
+      ? 'https://api.saskpartydonors.ca'
+      : 'https://localhost:5001',
   timeout: 30000,
   headers: {
     'Cache-Control': 'no-cache',
