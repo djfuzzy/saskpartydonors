@@ -1,14 +1,14 @@
 import HttpClient from './httpClient';
 
 export default {
-  async getContributions() {
+  async getContributions(cb) {
     let res = await HttpClient.get('api/contributions', { useCache: true });
-    return res.data;
+    return cb(res.data);
   },
-  async getContributionById(id) {
+  async getContributionById(id, cb) {
     let res = await HttpClient.get(`api/contributions/${id}`, {
       useCache: true,
     });
-    return res.data;
+    return cb(res.data);
   },
 };
