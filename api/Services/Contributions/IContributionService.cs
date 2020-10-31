@@ -9,6 +9,8 @@ namespace SaskPartyDonors.Services.Contributions
   {
     Task<IEnumerable<ContributionDto>> List();
 
+    Task<IEnumerable<ContributionByRecipientDto>> GetByRecipientId(Guid recipientId);
+
     Task<bool> ExistsAsync(string contributorName, Guid recipientId, int year);
 
     Task<ContributionDto> GetById(Guid id);

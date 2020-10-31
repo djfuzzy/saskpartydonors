@@ -19,11 +19,11 @@ namespace SaskPartyDonors.Controllers
             _contributionService = contributionService;
         }
 
-        // GET: api/Contributions
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContributionDto>>> GetContributions()
+        // GET: api/Contributions/Recipient/
+        [HttpGet("Recipient/{recipientId}")]
+        public async Task<ActionResult<IEnumerable<ContributionByRecipientDto>>> GetContributionsByRecipientId(Guid recipientId)
         {
-            return Ok(await _contributionService.List());
+            return Ok(await _contributionService.GetByRecipientId(recipientId));
         }
 
         // GET: api/Contributions/5
@@ -38,6 +38,15 @@ namespace SaskPartyDonors.Controllers
             }
 
             return Ok(contribution);
+        }
+
+#if DEBUG
+
+        // GET: api/Contributions
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ContributionDto>>> GetContributions()
+        {
+            return Ok(await _contributionService.List());
         }
 
         // POST: api/Contributions
@@ -66,5 +75,6 @@ namespace SaskPartyDonors.Controllers
 
             return NoContent();
         }
+#endif
     }
 }
