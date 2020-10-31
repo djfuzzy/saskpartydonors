@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import Vue from 'vue';
 import VueCurrencyFilter from 'vue-currency-filter';
 import routes from './routes';
+import store from './store';
 // import './assets/style.scss';
 
 Vue.config.productionTip = false;
@@ -53,6 +54,7 @@ Vue.use(VueCurrencyFilter, {
 
 const app = new Vue({
   el: '#app',
+  store,
   data: {
     currentRoute: window.location.pathname,
   },

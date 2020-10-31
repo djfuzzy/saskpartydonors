@@ -5,7 +5,9 @@
         <v-link href="/">Go back to home</v-link>
         <ContributionsTable
           :contributions="contributions"
-          :isLoading="isLoading"
+          :isLoading="
+            this.$store.getters['contributions/isConributionsLoading']
+          "
         />
         <h3>Sources</h3>
         <div class="content is-small">
@@ -39,7 +41,7 @@
 import ContributionsTable from '../components/ContributionsTable.vue';
 import VLink from '../components/VLink';
 import MainLayout from '../layouts/Main.vue';
-import ContributionsService from '../services/contributionsService';
+import { mapState } from 'vuex';
 
 export default {
   name: 'List',
@@ -48,16 +50,11 @@ export default {
     ContributionsTable,
     VLink,
   },
-  data() {
-    return {
-      contributions: [],
-      isLoading: false,
-    };
-  },
-  async mounted() {
-    this.isLoading = true;
-    this.contributions = await ContributionsService.getContributions();
-    this.isLoading = false;
+  computed: mapState({
+    contributions: (state) => state.contributions.all,
+  }),
+  created() {
+    this.$store.dispatch('contributions/getAllContributions');
   },
 };
 </script>
