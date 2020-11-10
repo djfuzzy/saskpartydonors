@@ -17,5 +17,7 @@ namespace SaskPartyDonors.Services.Contributions.Dtos
       public decimal Amount { get; set; }
 
       public string Location { get; set; }
-  }
+
+      public ContributionSource Source { get; set; }
+    }
 }

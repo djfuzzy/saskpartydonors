@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SaskPartyDonors.Data;
 
 namespace SaskPartyDonors.Data.Migrations
 {
     [DbContext(typeof(SaskPartyDonorsContext))]
-    partial class SaskPartyDonorsContextModelSnapshot : ModelSnapshot
+    [Migration("20201109020406_AddSourceAndCreatedAtToContribution")]
+    partial class AddSourceAndCreatedAtToContribution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
