@@ -52,6 +52,7 @@ namespace SaskPartyDonors
 
             services.AddTransient<AirtableCsvImporter>();
             services.AddTransient<SaskCsvImporter>();
+            services.AddTransient<NpCsvImporter>();
             services.AddTransient<IContributionService, ContributionService>();
             services.AddTransient<IRecipientService, RecipientService>();
 

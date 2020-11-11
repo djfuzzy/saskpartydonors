@@ -7,14 +7,15 @@ namespace SaskPartyDonors.Services.Importers
     public class AirtableCsvImportedContribution : IImportedContribution
     {
         [FieldQuoted(QuoteMode.OptionalForRead)]
-        public string ContributorName;
+        [FieldConverter(typeof(ContributorNameConverter))]
+        public string ContributorName { get; set; }
 
         [FieldQuoted(QuoteMode.OptionalForRead)]
         [FieldConverter(typeof(AmountConverter))]
-        public decimal Amount;
+        public decimal Amount { get; set; }
 
-        public int Year;
+        public int Year { get; set; }
 
-        public string Location;
+        public string Location { get; set; }
     }
 }

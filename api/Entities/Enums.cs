@@ -5,7 +5,9 @@ namespace SaskPartyDonors.Entities
     Individual,
     Corporation,
     TradeUnions,
-    Unincorporated
+    Unincorporated,
+    Donations,
+    NotApplicaple
   }
 
   public enum RecipientType
@@ -15,5 +17,12 @@ namespace SaskPartyDonors.Entities
     ProvincialCandidate,
     ProvincialParty,
     MunicipalCandidate
+  }
+
+  public enum ContributionSource
+  {
+    ElectionsSask,
+    Airtable,
+    NationalPost
   }
 }

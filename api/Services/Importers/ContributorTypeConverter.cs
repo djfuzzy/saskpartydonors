@@ -18,17 +18,19 @@ namespace SaskPartyDonors.Services.Importers
         case "Corporations":
           return (ContributorType)ContributorType.Corporation;
         case "Trade Unions":
+        case "Unions":
           return (ContributorType)ContributorType.TradeUnions;
+        case "Other":
         case "Unincorporated Organizations or Associations":
           return (ContributorType)ContributorType.Unincorporated;
+        case "Donations in Kind":
+          return (ContributorType)ContributorType.Donations;
+        case "-":
+        case "N/A":
+          return (ContributorType)ContributorType.NotApplicaple;
         default:
           throw new ArgumentOutOfRangeException($"Invalid contributor type: {from}");
       }
-    }
-
-    public override string FieldToString(object fieldValue)
-    {
-      throw new NotImplementedException();
     }
   }
 }

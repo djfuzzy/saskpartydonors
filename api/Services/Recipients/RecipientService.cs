@@ -20,14 +20,14 @@ namespace SaskPartyDonors.Services.Recipients
       _mapper = mapper;
     }
 
-    public async Task<RecipientDto> Create(SaskPartyDonorsContext context, CreateRecipientDto input)
+    public async Task<RecipientDto> Create(CreateRecipientDto input)
     {
       // TODO: Look for duplicates
       var recipient = _mapper.Map<Recipient>(input);
       recipient.Id = Guid.NewGuid();
-      context.Add(recipient);
+      _context.Add(recipient);
 
-      await context.SaveChangesAsync();
+      await _context.SaveChangesAsync();
 
       return _mapper.Map<RecipientDto>(recipient);
     }

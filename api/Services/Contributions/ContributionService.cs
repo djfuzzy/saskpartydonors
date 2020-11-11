@@ -26,6 +26,7 @@ namespace SaskPartyDonors.Services.Contributions
       // TODO: Look for duplicates
       var contribution = _mapper.Map<Contribution>(input);
       contribution.Id = Guid.NewGuid();
+      contribution.CreatedAt = DateTimeOffset.UtcNow;
       _context.Contributions.Add(contribution);
 
       await _context.SaveChangesAsync();
