@@ -18,7 +18,8 @@
                 target="_blank"
                 rel="noopener nofollow"
               >
-                Elections Saskatchewan (2016 to 2019)
+                Elections Saskatchewan (Donations over $250 from 2016 to 2019,
+                originating from Sask)
               </a>
             </li>
             <li>
@@ -28,6 +29,18 @@
                 rel="noopener nofollow"
               >
                 https://airtable.com/shrtS71S4Gw0V6QHy/tblm2NgY3pAW3896X/viwSk1LWyYK4kmX5U
+                (Corporate donations over $250 from 2006 to 2018, including
+                out-of-province)
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://special.nationalpost.com/follow-the-money/database"
+                target="_blank"
+                rel="noopener nofollow"
+              >
+                National Post (Donations over $250 from 2009 to 2018,
+                originating from Sask)
               </a>
             </li>
           </ul>
