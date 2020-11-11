@@ -2,7 +2,29 @@
   <main-layout>
     <section class="contributions-list mt-4">
       <div class="container">
-        <v-link href="/">Go back to home</v-link>
+        <div class="list-header">
+          <v-link href="/" class="vertical-center">Go back to home</v-link>
+          <b-dropdown
+            position="is-bottom-left"
+            aria-role="list"
+            class="download-field"
+          >
+            <b-button
+              type="is-primary"
+              size="is-small"
+              title="Download"
+              slot="trigger"
+              slot-scope="{ active }"
+            >
+              <b-icon icon="download"></b-icon>
+              <b-icon :icon="active ? 'chevron-up' : 'chevron-down'"></b-icon>
+            </b-button>
+            <b-dropdown-item aria-role="listitem" @click="downloadAll()"
+              >Download all data (.csv)</b-dropdown-item
+            >
+          </b-dropdown>
+          <download-csv :data="contributions" id="download-csv"></download-csv>
+        </div>
         <ContributionsTable
           :contributions="contributions"
           :isLoading="
@@ -51,24 +73,29 @@
 </template>
 
 <script>
-import ContributionsTable from '../components/ContributionsTable.vue';
-import VLink from '../components/VLink';
-import MainLayout from '../layouts/Main.vue';
-import { mapState } from 'vuex';
+import ContributionsTable from "../components/ContributionsTable.vue";
+import VLink from "../components/VLink";
+import MainLayout from "../layouts/Main.vue";
+import { mapState } from "vuex";
 
 export default {
-  name: 'List',
+  name: "List",
   components: {
     MainLayout,
     ContributionsTable,
-    VLink,
+    VLink
   },
   computed: mapState({
-    contributions: (state) => state.contributions.all,
+    contributions: state => state.contributions.all
   }),
   created() {
-    this.$store.dispatch('contributions/getAllContributions');
+    this.$store.dispatch("contributions/getAllContributions");
   },
+  methods: {
+    downloadAll: function() {
+      document.getElementById("download-csv").click();
+    }
+  }
 };
 </script>
 
@@ -77,5 +104,22 @@ export default {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+}
+.list-header {
+  display: flex;
+  position: relative;
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+.download-field {
+  margin-left: auto;
+}
+#download-csv {
+  display: none;
 }
 </style>
