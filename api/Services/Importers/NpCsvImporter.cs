@@ -7,46 +7,35 @@ using SaskPartyDonors.Services.Recipients;
 
 namespace SaskPartyDonors.Services.Importers
 {
-  public class SaskCsvImporter : BaseImporter<SaskCsvImportedContribution>
+  public class NpCsvImporter : BaseImporter<NpCsvImportedContribution>
     {
-        public int Year { get; set; }
-
         private const RecipientType DefaultRecipientType = RecipientType.ProvincialParty;
 
         private const string DefaultRegion = "SK";
 
-
-        public SaskCsvImporter(ILogger<BaseImporter<SaskCsvImportedContribution>> logger,
+        public NpCsvImporter(ILogger<NpCsvImporter> logger,
             IContributionService contributionService,
             IRecipientService recipientService)
-          : base(logger, contributionService, recipientService)
+            : base(logger, contributionService, recipientService)
         {
         }
 
-        protected override void PreImportValidation()
+        protected override bool MatchesRecipient(NpCsvImportedContribution importedContribution)
         {
-            if (Year == 0)
-            {
-                throw new InvalidOperationException($"{nameof(Year)} has not been set.");
-            }
+            return importedContribution.Recipient  == "Saskatchewan Party";
         }
 
-        protected override bool MatchesRecipient(SaskCsvImportedContribution importedContribution)
-        {
-            return true;
-        }
-
-        protected override CreateContributionDto MapTo(SaskCsvImportedContribution importedContribution, Guid recipientId)
+        protected override CreateContributionDto MapTo(NpCsvImportedContribution importedContribution, Guid recipientId)
         {
             return new CreateContributionDto
             {
                 ContributorName = importedContribution.ContributorName,
                 ContributorType = importedContribution.ContributorType,
-                Year = Year,
+                Year = importedContribution.Year,
                 RecipientId = recipientId,
                 Amount = importedContribution.Amount,
                 Location = DefaultRegion,
-                Source = ContributionSource.ElectionsSask
+                Source = ContributionSource.NationalPost
             };
         }
     }

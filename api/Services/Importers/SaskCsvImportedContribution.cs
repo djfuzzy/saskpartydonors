@@ -17,6 +17,7 @@ namespace SaskPartyDonors.Services.Importers
         public decimal Amount { get; set; }
 
         [FieldQuoted(QuoteMode.OptionalForRead)]
+        [FieldConverter(typeof(ContributorNameConverter), true)]
         public string ContributorName { get; set; }
     }
 }

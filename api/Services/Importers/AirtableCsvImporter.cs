@@ -1,102 +1,38 @@
 using System;
-using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
-using FileHelpers;
+using Microsoft.Extensions.Logging;
 using SaskPartyDonors.Entities;
 using SaskPartyDonors.Services.Contributions;
 using SaskPartyDonors.Services.Contributions.Dtos;
-using SaskPartyDonors.Services.Importers.Dtos;
 using SaskPartyDonors.Services.Recipients;
 
 namespace SaskPartyDonors.Services.Importers
 {
-  public class AirtableCsvImporter
-  {
-    private IContributionService _contributionService;
-
-    private IRecipientService _recipientService;
-
-    private const ContributorType DefaultContributorType = ContributorType.Corporation;
-
-    private const RecipientType DefaultRecipientType = RecipientType.ProvincialParty;
-
-    private const string DefaultRegion = "SK";
-
-    private const string DefaultRecipientName = "Saskatchewan Party";
-
-    public AirtableCsvImporter(IContributionService contributionService, IRecipientService recipientService)
+  public class AirtableCsvImporter : BaseImporter<AirtableCsvImportedContribution>
     {
-      _contributionService = contributionService;
-      _recipientService = recipientService;
-    }
-
-    public async Task<ImportResultDto> ImportFromStream(Stream stream, Guid recipientId)
-    {
-      var engine = new FileHelperEngine<AirtableCsvImportedContribution>();
-      var importedContributions = engine.ReadStream(new StreamReader(stream));
-      // var recipient = await _recipientService.FindOrCreate(_context, DefaultRecipientName, DefaultRecipientType,
-      //   DefaultRegion);
-      var existingContriubitons = await _contributionService.List();
-
-      var result = new ImportResultDto();
-
-      foreach (var importedContribution in importedContributions)
-      {
-        var formattedName = importedContribution.ContributorName.Replace(",", ", ");
-
-        if (existingContriubitons.Any(c =>
-          c.ContributorName == formattedName
-          && c.RecipientId == recipientId
-          && c.Year == importedContribution.Year))
+        public AirtableCsvImporter(ILogger<AirtableCsvImporter> logger,
+            IContributionService contributionService,
+            IRecipientService recipientService)
+        : base(logger, contributionService, recipientService)
         {
-          Console.WriteLine($"Already imported contribution from {importedContribution.ContributorName} to " +
-            $"{importedContribution.ContributorName} in {importedContribution.Year}.");
-          result.SkippedRecords.Add(JsonSerializer.Serialize(importedContribution));
-          continue;
         }
 
-        importedContribution.ContributorName = formattedName;
-        var contribution = await ImportContribution(importedContribution, recipientId);
-
-        if (contribution != null)
+        protected override bool MatchesRecipient(AirtableCsvImportedContribution importedContribution)
         {
-          result.ImportedCount++;
-          existingContriubitons.Append(contribution);
+            return true;
         }
-        else
+
+        protected override CreateContributionDto MapTo(AirtableCsvImportedContribution importedContribution, Guid recipientId)
         {
-          result.FailedCount++;
-          result.FailedRecords.Add(JsonSerializer.Serialize(importedContribution));
+            return new CreateContributionDto
+            {
+                ContributorName = importedContribution.ContributorName,
+                ContributorType = ContributorType.Corporation,
+                Year = importedContribution.Year,
+                RecipientId = recipientId,
+                Amount = importedContribution.Amount,
+                Location = importedContribution.Location,
+                Source = ContributionSource.Airtable
+            };
         }
-      }
-
-      return result;
     }
-
-    private async Task<ContributionDto> ImportContribution(AirtableCsvImportedContribution importedContribution,
-      Guid recipientId)
-    {
-      try
-      {
-        return await _contributionService.Create(new CreateContributionDto
-        {
-          ContributorName = importedContribution.ContributorName,
-          ContributorType = DefaultContributorType,
-          Year = importedContribution.Year,
-          RecipientId = recipientId,
-          Amount = importedContribution.Amount,
-          Location = importedContribution.Location
-        });
-      }
-      catch (Exception ex)
-      {
-        Console.WriteLine($"Unable to import contribution from {importedContribution.ContributorName} to " +
-          $"{DefaultRecipientName} in {importedContribution.Year}:");
-        Console.WriteLine(ex.Message);
-        return null;
-      }
-    }
-  }
 }
