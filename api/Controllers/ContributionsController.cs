@@ -19,9 +19,10 @@ namespace SaskPartyDonors.Controllers
             _contributionService = contributionService;
         }
 
-        // GET: api/Contributions/Recipient/
-        [HttpGet("Recipient/{recipientId}")]
-        public async Task<ActionResult<IEnumerable<ContributionByRecipientDto>>> GetContributionsByRecipientId(Guid recipientId)
+        // GET: api/Contributions/Recipients/
+        [HttpGet("Recipients/{recipientId}")]
+        public async Task<ActionResult<IEnumerable<ContributionByRecipientDto>>> GetContributionsByRecipientId(
+            Guid recipientId)
         {
             return Ok(await _contributionService.GetByRecipientId(recipientId));
         }
