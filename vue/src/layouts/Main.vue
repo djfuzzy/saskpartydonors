@@ -6,16 +6,36 @@
 </template>
 
 <script>
-import SiteFooter from '../components/SiteFooter';
+import SiteFooter from "../components/SiteFooter";
 
 export default {
   components: {
-    SiteFooter,
-  },
+    SiteFooter
+  }
 };
 </script>
 
 <style>
+a {
+  font-weight: 500;
+  color: #005941;
+}
+
+a:hover {
+  font-weight: 500;
+  color: #005941;
+  text-decoration: underline;
+  text-decoration-color: #fcb827;
+}
+
+.button.is-primary,
+.button.is-primary:hover,
+.button.is-primary:active,
+.button.is-primary:focus {
+  background-color: #005941;
+  color: #fcb827;
+}
+
 .is-sask-party {
   background-color: #005941;
   color: #fcb827;

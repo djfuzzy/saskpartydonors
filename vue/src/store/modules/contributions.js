@@ -1,25 +1,26 @@
-import ContributionsService from '../../services/contributionsService.js';
+import ContributionsService from "../../services/contributionsService.js";
 
 // initial state
 const state = () => ({
   all: [],
-  isLoading: false,
+  isLoading: false
 });
 
 // getters
 const getters = {
-  isConributionsLoading: (state) => state.isLoading,
+  isContributionsLoading: state => state.isLoading,
+  allContributions: state => state.all
 };
 
 // actions
 const actions = {
   getAllContributions({ commit }) {
-    commit('setIsContributionsLoading', true);
-    ContributionsService.getContributions((contributions) => {
-      commit('setContributions', contributions);
-      commit('setIsContributionsLoading', false);
+    commit("setIsContributionsLoading", true);
+    ContributionsService.getContributions(contributions => {
+      commit("setContributions", contributions);
+      commit("setIsContributionsLoading", false);
     });
-  },
+  }
 };
 
 // mutations
@@ -29,7 +30,7 @@ const mutations = {
   },
   setIsContributionsLoading(state, isLoading) {
     state.isLoading = isLoading;
-  },
+  }
 };
 
 export default {
@@ -37,5 +38,5 @@ export default {
   state,
   getters,
   actions,
-  mutations,
+  mutations
 };

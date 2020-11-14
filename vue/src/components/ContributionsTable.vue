@@ -154,11 +154,11 @@
 
 <script>
 export default {
-  name: 'ContributionsTable',
-  props: ['contributions', 'isLoading'],
+  name: "ContributionsTable",
+  props: ["contributions", "isLoading"],
   data: function() {
     return {
-      typeSearchTooltipActive: false,
+      typeSearchTooltipActive: false
     };
   },
   filters: {
@@ -169,48 +169,60 @@ export default {
     },
     contributorTypeIconName: function(value) {
       switch (value) {
-        case 'Corporation':
-          return 'landmark';
-        case 'Individual':
-          return 'user';
-        case 'TradeUnions':
-          return 'toolbox';
-        case 'Unincorporated':
-          return 'building';
+        case "Corporation":
+          return "landmark";
+        case "Individual":
+          return "user";
+        case "TradeUnions":
+          return "toolbox";
+        case "Unincorporated":
+          return "building";
         default:
-          return '';
+          return "";
       }
     },
     recipientClassName: function(value) {
       switch (value) {
-        case 'Saskatchewan Party':
-          return 'is-sask-party';
+        case "Saskatchewan Party":
+          return "is-sask-party";
         default:
-          return '';
+          return "";
       }
     },
     locationClassName: function(value) {
       switch (value) {
-        case 'BC':
-          return 'is-british-columbia';
-        case 'AB':
-          return 'is-alberta';
-        case 'SK':
-          return 'is-saskatchewan';
-        case 'MB':
-          return 'is-manitoba';
-        case 'ON':
-          return 'is-ontario';
-        case 'QC':
-          return 'is-quebec';
-        case 'NL':
-          return 'is-newfoundland';
-        case 'US':
-          return 'is-united-states';
+        case "BC":
+          return "is-british-columbia";
+        case "AB":
+          return "is-alberta";
+        case "SK":
+          return "is-saskatchewan";
+        case "MB":
+          return "is-manitoba";
+        case "ON":
+          return "is-ontario";
+        case "QC":
+          return "is-quebec";
+        case "NL":
+          return "is-newfoundland";
+        case "US":
+          return "is-united-states";
         default:
-          return '';
+          return "";
       }
-    },
-  },
+    }
+  }
 };
 </script>
+
+<style>
+a.pagination-link.is-current {
+  background-color: #005941;
+  border-color: #005941;
+  color: #fcb827;
+}
+input.input:active,
+input.input:focus {
+  border-color: #005941;
+}
+</style>
