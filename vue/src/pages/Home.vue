@@ -21,9 +21,10 @@
           <p>
             To really know who holds power over our government, one must follow
             the money. This tool was designed to make it easier to sift through
-            the publicly-available information to help us do just that.
+            the publicly-available political donation information to help us do
+            just that.
           </p>
-          <p class="has-text-centered">
+          <div class="has-text-centered">
             <v-link-button
               url="/list"
               class="is-sask-party"
@@ -31,12 +32,12 @@
             >
               <span>Show me the money</span>
             </v-link-button>
-          </p>
+          </div>
           <h3 class="subtitle">
             Coming Soon
           </h3>
           <div class="content">
-            <p>
+            <div>
               This site is a work in progress. Here is a list of some of the
               things you might see in the near future:
               <ul>
@@ -50,9 +51,6 @@
                   Corporate donations on map
                 </li>
                 <li>
-                  Ability to export data
-                </li>
-                <li>
                   Contributions for other parties
                 </li>
                 <li>
@@ -62,7 +60,7 @@
                   Contributions for candidates
                 </li>
               </ul>
-            </p>
+            </div>
           </div>
           <h3 class="subtitle">
             Contact
@@ -71,7 +69,9 @@
             <p>
               If you have any questions or suggestions, or would like to make a
               donation, please send an email to
-              <a href="mailto:contact@saskpartydonors.ca">contact@saskpartydonors.ca</a>.
+              <a href="mailto:contact@saskpartydonors.ca"
+                >contact@saskpartydonors.ca</a
+              >.
             </p>
           </div>
         </div>
@@ -81,15 +81,15 @@
 </template>
 
 <script>
-import MainLayout from '../layouts/Main.vue';
-import VLinkButton from '../components/VLinkButton.vue';
+import MainLayout from "../layouts/Main.vue";
+import VLinkButton from "../components/VLinkButton.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     MainLayout,
-    VLinkButton,
-  },
+    VLinkButton
+  }
 };
 </script>
 
