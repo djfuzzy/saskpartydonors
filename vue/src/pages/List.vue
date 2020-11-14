@@ -10,7 +10,7 @@
             class="download-field"
           >
             <b-button
-              type="is-primary"
+              type="is-primary is-sask-party"
               size="is-small"
               title="Download"
               slot="trigger"
@@ -23,12 +23,15 @@
               >Download all data (.csv)</b-dropdown-item
             >
           </b-dropdown>
-          <download-csv :data="contributions" id="download-csv"></download-csv>
+          <download-csv
+            :data="this.$store.getters['contributions/allContributions']"
+            id="download-csv"
+          ></download-csv>
         </div>
         <ContributionsTable
-          :contributions="contributions"
+          :contributions="this.$store.getters['contributions/allContributions']"
           :isLoading="
-            this.$store.getters['contributions/isConributionsLoading']
+            this.$store.getters['contributions/isContributionsLoading']
           "
         />
         <h3>Sources</h3>
@@ -76,7 +79,6 @@
 import ContributionsTable from "../components/ContributionsTable.vue";
 import VLink from "../components/VLink";
 import MainLayout from "../layouts/Main.vue";
-import { mapState } from "vuex";
 
 export default {
   name: "List",
@@ -85,9 +87,6 @@ export default {
     ContributionsTable,
     VLink
   },
-  computed: mapState({
-    contributions: state => state.contributions.all
-  }),
   created() {
     this.$store.dispatch("contributions/getAllContributions");
   },
